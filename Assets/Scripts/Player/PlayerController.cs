@@ -23,12 +23,16 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         Movement();
+        
+    }
+    private void Update()
+    {
         Shooting();
     }
     private void Movement()
     {
-        if (Input.GetKey(KeyCode.A) && rb.angularVelocity < 150f) { rb.AddTorque(1f); }
-        if (Input.GetKey(KeyCode.D) && rb.angularVelocity > -150f) { rb.AddTorque(-1f); }
+        if (Input.GetKey(KeyCode.A) && rb.angularVelocity < 150f) { rb.AddTorque(0.5f); }
+        if (Input.GetKey(KeyCode.D) && rb.angularVelocity > -150f) { rb.AddTorque(-0.5f); }
         if (Input.GetKey(KeyCode.W)) { rb.AddForce(transform.up * 5f); }
 
         if (rb.angularVelocity > 200f) { rb.angularVelocity = 200f; }
@@ -39,7 +43,7 @@ public class PlayerController : MonoBehaviour
     private void Shooting()
     {
         // MachineGun shot
-        if (Input.GetKey(KeyCode.Mouse0) && guns[0].Shot())
+        if (Input.GetKeyDown(KeyCode.Mouse0) && guns[0].Shot())
         {
             var bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
             bullet.GetComponent<Rigidbody2D>().AddForce(transform.up * 30f);

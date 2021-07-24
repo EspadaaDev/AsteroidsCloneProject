@@ -1,32 +1,32 @@
-using GameLogic.Architecture;
 using GameLogic.Architecture.Enemies;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyFactory : MonoBehaviour
 {
-    [SerializeField] GameObject asteroidPrefab;
-    [SerializeField] GameObject smallAsteroidPrefab;
-    [SerializeField] GameObject flyingSaucerPrefab;
+    [SerializeField]
+    private EnemyBase asteroidPrefab;
+    [SerializeField]
+    private EnemyBase smallAsteroidPrefab;
+    [SerializeField]
+    private EnemyBase flyingSaucer;
 
-    public static EnemyFactory instance;
-
-    public Factory Factory;
-
-    private void Awake()
+    // Return enemy prefab from type
+    public EnemyBase Get(EnemyType type)
     {
-        if (instance == null)
+        switch (type)
         {
-            instance = this;
+            case EnemyType.Asteroid:
+                return Instantiate(asteroidPrefab);
+            case EnemyType.SmallAsteroid:
+                return Instantiate(smallAsteroidPrefab);
+            case EnemyType.FlyingSaucer:
+                return Instantiate(flyingSaucer);
         }
-        else
-        {
-            Destroy(gameObject);
-        }
+        return null;
     }
 
-    private void CreateEmeny(EnemyType type)
+
+    void Start()
     {
-        
     }
 }

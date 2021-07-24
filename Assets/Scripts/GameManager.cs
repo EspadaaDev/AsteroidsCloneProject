@@ -11,8 +11,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject playerPrefab;
     private PlayerController playerController;
 
-    // Factory
-    private Factory factory;
 
     private void Awake()
     {
@@ -30,7 +28,6 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        factory = new Factory();
         // Player instanciate
         var playerObject = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
     }

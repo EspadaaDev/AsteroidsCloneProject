@@ -16,7 +16,6 @@ public class ObjectRenderer : MonoBehaviour, IPainter
         spriteRenderer.sprite = ObjectSprite;
         DrawLines();
 
-        SetRenderType(ApplicationSettings.instance.RenderingType);
     }
 
     public void SetRenderType(RenderingType type)

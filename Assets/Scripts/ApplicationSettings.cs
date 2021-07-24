@@ -4,16 +4,6 @@ using UnityEngine;
 
 public class ApplicationSettings : MonoBehaviour
 {
-    public static ApplicationSettings instance;
-    private void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        Destroy(gameObject);
-    }
-
     // - - - Render - - -
     // Action
     public event Action RenderChangeNotify;
