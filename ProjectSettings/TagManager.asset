@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Bullet
   - GameBoard
+  - Enemy
+  - LaserRay
   layers:
   - Default
   - TransparentFX

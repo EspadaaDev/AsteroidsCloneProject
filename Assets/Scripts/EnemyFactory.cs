@@ -11,16 +11,16 @@ public class EnemyFactory : MonoBehaviour
     private EnemyBase flyingSaucer;
 
     // Return enemy prefab from type
-    public EnemyBase Get(EnemyType type)
+    public EnemyBase Get(EnemyType type, Vector2 position, Quaternion quaternion)
     {
         switch (type)
         {
             case EnemyType.Asteroid:
-                return Instantiate(asteroidPrefab);
+                return Instantiate(asteroidPrefab, position, quaternion);
             case EnemyType.SmallAsteroid:
-                return Instantiate(smallAsteroidPrefab);
+                return Instantiate(smallAsteroidPrefab, position, quaternion);
             case EnemyType.FlyingSaucer:
-                return Instantiate(flyingSaucer);
+                return Instantiate(flyingSaucer, position, quaternion);
         }
         return null;
     }

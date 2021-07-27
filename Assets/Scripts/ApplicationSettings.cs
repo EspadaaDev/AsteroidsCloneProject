@@ -21,7 +21,7 @@ public class ApplicationSettings : MonoBehaviour
 
         RenderingType = type;
 
-        var painters = FindObjectsOfType<MonoBehaviour>().OfType<IPainter>().ToArray();
+        var painters = FindObjectsOfType<MonoBehaviour>().OfType<IDrawn>().ToArray();
         foreach (var item in painters)
         {
             item.SetRenderType(RenderingType);

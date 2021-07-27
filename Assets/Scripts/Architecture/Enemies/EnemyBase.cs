@@ -1,10 +1,11 @@
 using GameLogic.Architecture.Enemies;
+using GameLogic.Architecture.Weapons.Projectiles;
 using System;
 using UnityEngine;
 
 public abstract class EnemyBase : MonoBehaviour
 {
-    public abstract event Action<int> DeathNofity;
+    public abstract event Action<int> DeathPointsNofity;
     protected Enemy enemy;
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -12,15 +13,14 @@ public abstract class EnemyBase : MonoBehaviour
         switch (collision.tag)
         {
             case "Bullet":
-                Death(collision.tag);
+                Death(ProjectileType.Bullet);
                 Destroy(collision.gameObject);
                 break;
             case "LaserRay":
-                Death(collision.tag);
-                Destroy(collision.gameObject);
+                Death(ProjectileType.LaserRay);
                 break;
         }
     }
 
-    protected abstract void Death(string projectileType);
+    protected abstract void Death(ProjectileType type);
 }

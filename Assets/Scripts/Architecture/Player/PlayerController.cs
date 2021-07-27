@@ -1,7 +1,4 @@
-using GameLogic;
-using GameLogic.Architecture.Spaceships;
 using GameLogic.Architecture.Weapons.Guns;
-using GameLogic.Player;
 using UnityEngine;
 using System.Linq;
 
@@ -10,20 +7,27 @@ public class PlayerController : MonoBehaviour
     // Fields
     [SerializeField] private PlayerView playerView;
     [SerializeField] private GameObject bulletPrefab;
-    Rigidbody2D rb;
+    [SerializeField] private GameObject laserRayPrefab;
+    [SerializeField] private LineRenderer lineRenderer;
 
-    private Weapon[] guns;
+    private Rigidbody2D rb;
 
-    private void Start()
+    // Weapons
+    public Laser Laser { get; private set; }
+    public MachineGun MachineGun { get; private set; }
+
+
+    private void Awake()
     {
-        guns = new Weapon[] { new MachineGun(), new Laser() };
+        Laser = new Laser();
+        MachineGun = new MachineGun();
         rb = GetComponent<Rigidbody2D>();
     }
 
     private void FixedUpdate()
     {
         Movement();
-        
+        Laser.AddShot(Time.deltaTime / 3f);
     }
     private void Update()
     {
@@ -43,17 +47,17 @@ public class PlayerController : MonoBehaviour
     private void Shooting()
     {
         // MachineGun shot
-        if (Input.GetKeyDown(KeyCode.Mouse0) && guns[0].Shot())
+        if (Input.GetKeyDown(KeyCode.Mouse0) && MachineGun.Shot())
         {
             var bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
             bullet.GetComponent<Rigidbody2D>().AddForce(transform.up * 30f);
         }
 
         // Laser shot
-        if (Input.GetKey(KeyCode.Mouse1) && guns[1].Shot())
+        if (Input.GetKey(KeyCode.Mouse1) && Laser.Shot())
         {
-            var bullet = Instantiate(bulletPrefab);
-            bullet.GetComponent<Rigidbody2D>().AddForce(transform.up * 30f);
+            var laserRay = Instantiate(laserRayPrefab, transform.position, transform.rotation);
+            laserRay.GetComponent<Rigidbody2D>().AddForce(transform.up * 50f);
         }
     }
 }
