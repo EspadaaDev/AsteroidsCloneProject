@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class Polygon : MonoBehaviour
 {
-
     public GameObject thatObject;
     private void Start()
     {

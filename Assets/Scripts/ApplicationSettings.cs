@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class ApplicationSettings : MonoBehaviour
 {
+    public static ApplicationSettings Instacne;
+    // Game
+    public bool GameIsOn { get; private set; } = false;
     // - - - Render - - -
     // Action
     public event Action RenderChangeNotify;
@@ -26,5 +29,14 @@ public class ApplicationSettings : MonoBehaviour
         {
             item.SetRenderType(RenderingType);
         }
+    }
+
+    private void Awake()
+    {
+        if (Instacne != null)
+        {
+            Instacne = this;
+        }
+        Destroy(gameObject);
     }
 }

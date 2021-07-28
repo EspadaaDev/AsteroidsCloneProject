@@ -6,7 +6,7 @@ using UnityEngine;
 public abstract class EnemyBase : MonoBehaviour
 {
     public abstract event Action<int> DeathPointsNofity;
-    protected Enemy enemy;
+    protected EnemyStats Stats;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

@@ -20,29 +20,31 @@ public class GameBoard : MonoBehaviour
     [SerializeField]
     private Vector2 flyingSaucerCreationTime = new Vector2(15f, 20f);
 
-    private bool gameIsOver = false;
-
     private EnemyFactory _factory;
     private SpawnMath _spawnMath;
     public Score Score;
-    // Start is called before the first frame update
+
+
+
+    // Private methods
+    // Game
     private void Awake()
-    {
+    {        
         _factory = GetComponent<EnemyFactory>();
         _spawnMath = new SpawnMath(spawnBorder, spawnIndent);
-        Score = new Score();
-
+        Score = new Score();        
     }
 
     private void Start()
     {
+        ApplicationData.Instance.GameIsOn = true;
         StartCoroutine(InstantiateAsteroidsLogic());
         StartCoroutine(InstantiateFlyingSaucerLogic());
         StartCoroutine(InstantiateSmallAsteroidsLogic());
     }
     private IEnumerator InstantiateAsteroidsLogic()
     {
-        while (!gameIsOver)
+        while (ApplicationData.Instance.GameIsOn)
         {
 
             yield return new WaitForSeconds(Random.Range(asteroidCreationTime.x, asteroidCreationTime.y));
@@ -56,7 +58,7 @@ public class GameBoard : MonoBehaviour
 
     private IEnumerator InstantiateFlyingSaucerLogic()
     {
-        while (!gameIsOver)
+        while (ApplicationData.Instance.GameIsOn)
         {
 
             yield return new WaitForSeconds(Random.Range(flyingSaucerCreationTime.x, flyingSaucerCreationTime.y));
@@ -69,12 +71,13 @@ public class GameBoard : MonoBehaviour
 
     private IEnumerator InstantiateSmallAsteroidsLogic()
     {
-        while (!gameIsOver)
+        while (ApplicationData.Instance.GameIsOn)
         {
             yield return new WaitForSeconds(Random.Range(smallAsteroidCreationTime.x, smallAsteroidCreationTime.y));
 
             var createPosition = _spawnMath.GetRandomSpawnPosition();
-            EnemyBase temp = _factory.Get(EnemyType.SmallAsteroid, createPosition, _spawnMath.GetRandomQuaternionToCenter(createPosition)).GetComponent<EnemyBase>();
+            EnemyBase temp = _factory.Get(EnemyType.SmallAsteroid, createPosition,
+                _spawnMath.GetRandomQuaternionToCenter(createPosition)).GetComponent<EnemyBase>();
             temp.DeathPointsNofity += Score.Add;
         }
     }
@@ -83,7 +86,8 @@ public class GameBoard : MonoBehaviour
     {
         if (type == ProjectileType.Bullet)
         {
-            EnemyBase temp = _factory.Get(EnemyType.SmallAsteroid, position, _spawnMath.GetRandomQuaternionToCenter(position));
+            EnemyBase temp = _factory.Get(EnemyType.SmallAsteroid, position, 
+                _spawnMath.GetRandomQuaternionToCenter(position));
             temp.DeathPointsNofity += Score.Add;
             temp = _factory.Get(EnemyType.SmallAsteroid, position, _spawnMath.GetRandomQuaternionToCenter(position));
             temp.DeathPointsNofity += Score.Add;
@@ -95,6 +99,10 @@ public class GameBoard : MonoBehaviour
         if (!collision.gameObject.CompareTag("Player"))
         {
             Destroy(collision.gameObject);
+        }
+        else
+        {
+            collision.GetComponent<PlayerController>().GameOver();
         }
     }
 }

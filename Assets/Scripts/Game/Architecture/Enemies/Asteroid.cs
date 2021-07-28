@@ -10,12 +10,12 @@ public class Asteroid : EnemyBase
 
     private void Awake()
     {
-        enemy = new Enemy(EnemyType.Asteroid);
+        Stats = new EnemyStateProvider().GetStats(EnemyType.Asteroid);
         gameObject.GetComponent<Rigidbody2D>().AddForce(transform.up * 50f);
     }
     protected override void Death(ProjectileType type)
     {
-        DeathPointsNofity?.Invoke(enemy.Stats.PointsForDestroy);
+        DeathPointsNofity?.Invoke(Stats.PointsForDestroy);
         DeathNofity?.Invoke(type, transform.position);
         Destroy(gameObject);
     }

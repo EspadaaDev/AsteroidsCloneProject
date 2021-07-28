@@ -9,14 +9,14 @@ public class SmallAsteroid : EnemyBase
 
     protected override void Death(ProjectileType type)
     {
-        DeathPointsNofity?.Invoke(enemy.Stats.PointsForDestroy);
+        DeathPointsNofity?.Invoke(Stats.PointsForDestroy);
         Destroy(gameObject);
     }
 
     // Start is called before the first frame update
     void Awake()
     {
-        enemy = new Enemy(EnemyType.SmallAsteroid);
+        Stats = new EnemyStateProvider().GetStats(EnemyType.SmallAsteroid);
         gameObject.GetComponent<Rigidbody2D>().AddForce(transform.up * 65f);
     }
 }

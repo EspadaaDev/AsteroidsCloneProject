@@ -8,7 +8,7 @@ public class ApplicationData : MonoBehaviour
 
     // App data
     public int BestScore { get; }
-
+    public bool GameIsOn { get; set; } = false;
 
     // App settings
     // Events

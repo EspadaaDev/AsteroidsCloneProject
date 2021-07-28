@@ -11,12 +11,12 @@ public class FlyingSaucer : EnemyBase
 
     protected override void Death(ProjectileType type)
     {
-        DeathPointsNofity?.Invoke(enemy.Stats.PointsForDestroy);
+        DeathPointsNofity?.Invoke(Stats.PointsForDestroy);
         Destroy(gameObject);
     }
     private void Awake()
     {
-        enemy = new Enemy(EnemyType.FlyingSaucer);
+        Stats = new EnemyStateProvider().GetStats(EnemyType.FlyingSaucer);
         _player = GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<Transform>();
     }
     // Update is called once per frame
@@ -29,7 +29,7 @@ public class FlyingSaucer : EnemyBase
     {
         if (_player != null) {
             Vector3 position = _player.position;
-            transform.position = Vector3.MoveTowards(transform.position, position, 0.001f * enemy.Stats.MovementSpeed);
+            transform.position = Vector3.MoveTowards(transform.position, position, 0.001f * Stats.MovementSpeed);
         }
     }
 
