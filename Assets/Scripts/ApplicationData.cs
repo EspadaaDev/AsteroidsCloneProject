@@ -12,7 +12,7 @@ public class ApplicationData : MonoBehaviour
 
     // App settings
     // Events
-    public event Action<RenderingType> ChangeRenderingType;
+    public event Action ChangeRenderingType;
     public event Action<bool> ChangeIsMusicPlays;
     public event Action<bool> ChangeIsSoundsPlays;
     public RenderingType RenderingType
@@ -21,7 +21,7 @@ public class ApplicationData : MonoBehaviour
         private set
         {
             RenderingType = value;
-            ChangeRenderingType?.Invoke(RenderingType);
+            ChangeRenderingType?.Invoke();
         }
     }
     public bool IsMusicPlays
@@ -64,7 +64,8 @@ public class ApplicationData : MonoBehaviour
     {
         if (Instance == null)
         {
-            Init();
+            Debug.Log("123");
+            Init(); 
             Instance = this;
         }
         Destroy(gameObject);
@@ -72,6 +73,6 @@ public class ApplicationData : MonoBehaviour
 
     private void Init()
     {
-
+        RenderingType = RenderingType.Primitives;          
     }
 }

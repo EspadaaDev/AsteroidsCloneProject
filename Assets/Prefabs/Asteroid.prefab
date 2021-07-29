@@ -9,13 +9,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 786460774079802821}
+  - component: {fileID: 7054661107964239619}
   m_Layer: 0
-  m_Name: polygon
+  m_Name: Primitives
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &786460774079802821
 Transform:
   m_ObjectHideFlags: 0
@@ -30,6 +31,24 @@ Transform:
   m_Father: {fileID: 4183140225060206292}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7054661107964239619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1008278793813571863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62710ffa72c2bb441b35a76fe27c2e40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lineThickness: 0.03
+  material: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+  figureType: 0
+  size: 0.42
+  thetaScale: 0.01
+  flattening: 1
 --- !u!1 &4183140225060206290
 GameObject:
   m_ObjectHideFlags: 0
@@ -39,8 +58,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4183140225060206292}
+  - component: {fileID: 6747085043039485586}
   m_Layer: 0
-  m_Name: view
+  m_Name: View
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -62,6 +82,20 @@ Transform:
   m_Father: {fileID: 4183140226683748113}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6747085043039485586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4183140225060206290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c732ee2bf48550a4b95b48ce6a415c8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteView: {fileID: 7150397890425492641}
+  primitivesView: {fileID: 1008278793813571863}
 --- !u!1 &4183140226683748126
 GameObject:
   m_ObjectHideFlags: 0
@@ -156,7 +190,7 @@ GameObject:
   - component: {fileID: 5427233327243106283}
   - component: {fileID: 1350559130647018068}
   m_Layer: 0
-  m_Name: sprite
+  m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

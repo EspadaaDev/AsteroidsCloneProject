@@ -1,5 +1,5 @@
 public enum RenderingType 
 {
     Sprite,
-    Polygon
+    Primitives
 }

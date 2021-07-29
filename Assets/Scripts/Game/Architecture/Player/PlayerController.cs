@@ -8,14 +8,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerView playerView;
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private GameObject laserRayPrefab;
-    [SerializeField] private LineRenderer lineRenderer;
     [Header("Laser settings:")]
     [SerializeField] private int maxShots = 3;
     [SerializeField] private float timeToReload = 0.3f;
     [SerializeField] private float addShotTime = 3.0f;
     private Rigidbody2D rb;
     public event Action GameOverNotify;
-
 
     // Weapons
     public Laser Laser { get; private set; }

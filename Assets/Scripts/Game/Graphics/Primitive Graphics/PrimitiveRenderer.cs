@@ -1,45 +1,57 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class PrimitiveRenderer : MonoBehaviour, IRender
+public class PrimitiveRenderer : MonoBehaviour
 {
-    [Range(0.1f, 100f)]
-    public float radius = 1.0f;
+    [Header("Renderer settings:")]    
+    [SerializeField, Range(0.01f, 1f)] private float lineThickness = 0.03f;
+    [SerializeField] private Material material;
+    [Header("Figure settings:")]
+    [SerializeField] private FigureType figureType;
+    [SerializeField, Range(0.001f, 10f)] private float size = 0.4f;
+    [SerializeField, Range(0.01f, 1f)] private float thetaScale = 0.01f;
+    [SerializeField, Range(0.01f, 100f)] private float flattening = 1.0f;
 
-    [Range(3, 256)]
-    public int numSegments = 128;
-
-    public Material MaterialRender;
-    void Start()
+    private Figure figure;
+    private LineRenderer lineRenderer;
+    private void Awake()
     {
-        DoRenderer();
+        SetFigure();
+    }
+    private void Start()
+    {
+        SetLineRenderer();
     }
 
-    public void DoRenderer()
+    private void SetLineRenderer()
     {
-        LineRenderer lineRenderer = gameObject.GetComponent<LineRenderer>();
-        Color c1 = new Color(255, 255, 255, 1);
-        lineRenderer.material = MaterialRender;
-        lineRenderer.SetColors(c1, c1);
-        lineRenderer.SetWidth(0.5f, 0.5f);
-        lineRenderer.SetVertexCount(numSegments + 1);
+        lineRenderer = gameObject.AddComponent<LineRenderer>();
+        lineRenderer.loop = true;
         lineRenderer.useWorldSpace = false;
+        lineRenderer.startWidth = lineThickness;
+        lineRenderer.startWidth = lineThickness;
+        lineRenderer.startColor = Color.white;
+        lineRenderer.endColor = Color.white;
+        lineRenderer.material = material;
+    }
 
-        float deltaTheta = (float)(2.0 * Mathf.PI) / numSegments;
-        float theta = 0f;
-
-        for (int i = 0; i < numSegments + 1; i++)
+    private void SetFigure()
+    {
+        switch (figureType)
         {
-            float x = radius * Mathf.Cos(theta);
-            float z = radius * Mathf.Sin(theta);
-            Vector3 pos = new Vector3(z, x, 0);
-            lineRenderer.SetPosition(i, pos);
-            theta += deltaTheta;
+            case FigureType.ellipse:
+                figure = new Ellipse(size, flattening, thetaScale);
+                break;
+            case FigureType.sqare:
+                figure = new Squre(size, flattening, thetaScale);
+                break;
+            case FigureType.triangle:
+                figure = new Triangle(size, flattening, thetaScale);
+                break;
         }
     }
-    public void Draw()
+
+    private void Update()
     {
-        throw new System.NotImplementedException();
+        figure.Draw(ref lineRenderer);
     }
 }
