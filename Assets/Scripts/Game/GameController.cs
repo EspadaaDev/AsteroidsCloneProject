@@ -8,7 +8,8 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
-        ApplicationData.Instance.GameIsOn = true;
+        Time.timeScale = 1;
+        ApplicationData.Instance.GameIsOn = true;        
         player = GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<PlayerController>();
         player.GameOverNotify += GameOver;
     }
@@ -16,6 +17,7 @@ public class GameController : MonoBehaviour
     private void GameOver()
     {
         ApplicationData.Instance.GameIsOn = false;
+        ApplicationData.Instance.SetBestScore(board.Score.Count);
         Time.timeScale = 0;
         gui.ShowGameOverPanel(board.Score.Count);
     }

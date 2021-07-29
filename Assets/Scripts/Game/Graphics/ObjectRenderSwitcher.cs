@@ -10,17 +10,22 @@ public class ObjectRenderSwitcher : MonoBehaviour
         SetRenderView();
     }
 
+    private void OnDestroy()
+    {
+        ApplicationData.Instance.ChangeRenderingType -= SetRenderView;
+    }
+
     private void SetRenderView()
     {
         switch (ApplicationData.Instance.RenderingType)
         {
-            case RenderingType.Sprite:
+            case RenderingType.Sprites:
                 spriteView.SetActive(true);
                 primitivesView.SetActive(false);
                 break;
             case RenderingType.Primitives:
-                spriteView.SetActive(true);
-                primitivesView.SetActive(false);
+                spriteView.SetActive(false);
+                primitivesView.SetActive(true);
                 break;
         }
     }

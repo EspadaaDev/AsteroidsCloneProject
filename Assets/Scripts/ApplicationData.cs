@@ -5,74 +5,59 @@ public class ApplicationData : MonoBehaviour
 {
     // Singleton
     public static ApplicationData Instance { get; private set; }
-
+    public PlayerPrefsLoader DataLoader;
     // App data
-    public int BestScore { get; }
+    public int BestScore { get; private set; }
     public bool GameIsOn { get; set; } = false;
 
     // App settings
+    private RenderingType renderingType = RenderingType.Sprites;
+
     // Events
     public event Action ChangeRenderingType;
     public event Action<bool> ChangeIsMusicPlays;
     public event Action<bool> ChangeIsSoundsPlays;
+
     public RenderingType RenderingType
     {
-        get { return RenderingType; }
+        get { return renderingType; }
         private set
         {
-            RenderingType = value;
+            renderingType = value;
             ChangeRenderingType?.Invoke();
         }
-    }
-    public bool IsMusicPlays
-    {
-        get { return IsMusicPlays; }
-        private set
-        {
-            IsMusicPlays = value;
-            ChangeIsMusicPlays?.Invoke(IsMusicPlays);
-        }
-    }
-    public bool IsSoundsPlays
-    {
-        get { return IsSoundsPlays; }
-        private set
-        {
-            IsSoundsPlays = value;
-            ChangeIsSoundsPlays?.Invoke(IsMusicPlays);
-        }
-    }
+    }   
 
     // Methods
     // Set settings
-    public void SetSettings(RenderingType type, bool isMusicPlays, bool isSoundsPlays)
+    public void SetSettings(GameSettings settings)
     {
-        if (RenderingType != type)
-        {
-            RenderingType = type;
-        }
-        if (IsMusicPlays != IsMusicPlays)
-        {
-            IsMusicPlays = isMusicPlays;
-        }
-        if (IsSoundsPlays != isSoundsPlays)
-        {
-            IsSoundsPlays = isSoundsPlays;
-        }
+        RenderingType = settings.RenderingType;
+    }
+    public GameSettings GetSettings()
+    {
+        return new GameSettings(RenderingType);
     }
     private void Awake()
     {
         if (Instance == null)
         {
-            Debug.Log("123");
-            Init(); 
+            Init();
             Instance = this;
         }
         Destroy(gameObject);
     }
-
     private void Init()
     {
-        RenderingType = RenderingType.Primitives;          
+        DataLoader = new PlayerPrefsLoader();
+        BestScore = DataLoader.GetBestScore();
+    }
+
+    public void SetBestScore(int value)
+    {
+        if (DataLoader.SetBestScore(value))
+        {
+            BestScore = DataLoader.GetBestScore();
+        }
     }
 }

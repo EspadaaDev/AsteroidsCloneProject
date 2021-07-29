@@ -5,7 +5,6 @@ using UnityEngine.EventSystems;
 public class PlayerController : MonoBehaviour
 {
     // Fields
-    [SerializeField] private PlayerView playerView;
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private GameObject laserRayPrefab;
     [Header("Laser settings:")]
