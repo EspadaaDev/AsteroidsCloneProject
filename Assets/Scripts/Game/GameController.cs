@@ -14,6 +14,7 @@ public class GameController : MonoBehaviour
         player.GameOverNotify += GameOver;
     }
 
+    // On Game Over
     private void GameOver()
     {
         ApplicationData.Instance.GameIsOn = false;

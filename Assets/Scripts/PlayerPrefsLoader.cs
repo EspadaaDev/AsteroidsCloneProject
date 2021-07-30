@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class PlayerPrefsLoader
 {
+    // Getting best score from player prefs
     public int GetBestScore()
     {
         if (!PlayerPrefs.HasKey("best_score"))
@@ -11,6 +12,7 @@ public class PlayerPrefsLoader
         return PlayerPrefs.GetInt("best_score");
     }
 
+    // Setting best score in player prefs
     public bool SetBestScore(int value)
     {
         if (!PlayerPrefs.HasKey("best_score") || PlayerPrefs.GetInt("best_score") < value)
@@ -19,16 +21,6 @@ public class PlayerPrefsLoader
             return true;
         }
         return false;
-    }
-
-    public GameSettings GetSettings()
-    {
-        return new GameSettings();
-    }
-
-    public void SetSettings(RenderingType type)
-    {
-        ApplicationData.Instance.SetSettings(new GameSettings(type));
     }
 }
 

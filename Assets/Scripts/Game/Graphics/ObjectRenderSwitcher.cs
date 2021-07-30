@@ -6,15 +6,19 @@ public class ObjectRenderSwitcher : MonoBehaviour
 
     private void Start()
     {
+        // Subscribing from the notification about the change of the render type
         ApplicationData.Instance.ChangeRenderingType += SetRenderView;
+
         SetRenderView();
     }
 
     private void OnDestroy()
     {
+        // Unsubscribing from the notification about the change of the render type
         ApplicationData.Instance.ChangeRenderingType -= SetRenderView;
     }
 
+    // Setting the render type
     private void SetRenderView()
     {
         switch (ApplicationData.Instance.RenderingType)

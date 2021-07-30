@@ -20,19 +20,22 @@ public class GameBoard : MonoBehaviour
     [SerializeField]
     private Vector2 flyingSaucerCreationTime = new Vector2(15f, 20f);
 
+    [Header("Other: ")]
+    public Transform Player;
+    public Score Score;
+
     private EnemyFactory _factory;
     private SpawnMath _spawnMath;
-    public Score Score;
 
 
 
     // Private methods
     // Game
     private void Awake()
-    {        
+    {
         _factory = GetComponent<EnemyFactory>();
         _spawnMath = new SpawnMath(spawnBorder, spawnIndent);
-        Score = new Score();        
+        Score = new Score();
     }
 
     private void Start()
@@ -42,6 +45,13 @@ public class GameBoard : MonoBehaviour
         StartCoroutine(InstantiateFlyingSaucerLogic());
         StartCoroutine(InstantiateSmallAsteroidsLogic());
     }
+
+    private void Update()
+    {
+        PlayerBorderTeleport();
+    }
+
+    // The logic of the appearance of Asteroids
     private IEnumerator InstantiateAsteroidsLogic()
     {
         while (ApplicationData.Instance.GameIsOn)
@@ -56,6 +66,7 @@ public class GameBoard : MonoBehaviour
         }
     }
 
+    // The logic of the appearance of flying saucers
     private IEnumerator InstantiateFlyingSaucerLogic()
     {
         while (ApplicationData.Instance.GameIsOn)
@@ -69,6 +80,7 @@ public class GameBoard : MonoBehaviour
         }
     }
 
+    //The logic of the appearance of small asteroids
     private IEnumerator InstantiateSmallAsteroidsLogic()
     {
         while (ApplicationData.Instance.GameIsOn)
@@ -82,11 +94,12 @@ public class GameBoard : MonoBehaviour
         }
     }
 
+    // At the death of an asteroid
     private void OnAsteroidDeath(ProjectileType type, Vector3 position)
     {
         if (type == ProjectileType.Bullet)
         {
-            EnemyBase temp = _factory.Get(EnemyType.SmallAsteroid, position, 
+            EnemyBase temp = _factory.Get(EnemyType.SmallAsteroid, position,
                 _spawnMath.GetRandomQuaternionToCenter(position));
             temp.DeathPointsNofity += Score.Add;
             temp = _factory.Get(EnemyType.SmallAsteroid, position, _spawnMath.GetRandomQuaternionToCenter(position));
@@ -96,13 +109,20 @@ public class GameBoard : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (!collision.gameObject.CompareTag("Player"))
+        // Destroying all objects when going abroad
+        Destroy(collision.gameObject);        
+    }
+
+    // Teleport the player at the borders
+    private void PlayerBorderTeleport()
+    {
+        if (Mathf.Abs(spawnBorder.x * 1.05f) < Mathf.Abs(Player.position.x))
         {
-            Destroy(collision.gameObject);
+            Player.position = new Vector3(-Player.position.x * 0.98f, Player.position.y, 0);
         }
-        else
+        if (Mathf.Abs(spawnBorder.y * 1.05f) < Mathf.Abs(Player.position.y))
         {
-            collision.GetComponent<PlayerController>().GameOver();
+            Player.position = new Vector3(Player.position.x, -Player.position.y * 0.98f, 0);
         }
     }
 }

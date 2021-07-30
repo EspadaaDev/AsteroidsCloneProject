@@ -7,7 +7,7 @@ public class ApplicationData : MonoBehaviour
     public static ApplicationData Instance { get; private set; }
     public PlayerPrefsLoader DataLoader;
     // App data
-    public int BestScore { get; private set; }
+    public int BestScore { get; private set; } = 0;
     public bool GameIsOn { get; set; } = false;
 
     // App settings
@@ -18,6 +18,7 @@ public class ApplicationData : MonoBehaviour
     public event Action<bool> ChangeIsMusicPlays;
     public event Action<bool> ChangeIsSoundsPlays;
 
+    // Already set render type
     public RenderingType RenderingType
     {
         get { return renderingType; }
@@ -26,18 +27,9 @@ public class ApplicationData : MonoBehaviour
             renderingType = value;
             ChangeRenderingType?.Invoke();
         }
-    }   
+    }
 
-    // Methods
-    // Set settings
-    public void SetSettings(GameSettings settings)
-    {
-        RenderingType = settings.RenderingType;
-    }
-    public GameSettings GetSettings()
-    {
-        return new GameSettings(RenderingType);
-    }
+    // Methods - - - - -
     private void Awake()
     {
         if (Instance == null)
@@ -47,12 +39,26 @@ public class ApplicationData : MonoBehaviour
         }
         Destroy(gameObject);
     }
+    // Setting settings
+    public void SetSettings(GameSettings settings)
+    {
+        RenderingType = settings.RenderingType;
+    }
+
+    // Getting settings
+    public GameSettings GetSettings()
+    {
+        return new GameSettings(RenderingType);
+    }
+
+    // Initialization components
     private void Init()
     {
         DataLoader = new PlayerPrefsLoader();
         BestScore = DataLoader.GetBestScore();
     }
 
+    // Setting best score
     public void SetBestScore(int value)
     {
         if (DataLoader.SetBestScore(value))
