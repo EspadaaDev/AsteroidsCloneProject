@@ -24,9 +24,4 @@ public class EnemyFactory : MonoBehaviour
         }
         return null;
     }
-
-
-    void Start()
-    {
-    }
 }
